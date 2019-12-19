@@ -7,7 +7,7 @@
 //
 
 import SpriteKit
-
+import Skillz
 
 class GameManager {
     
@@ -159,29 +159,33 @@ class GameManager {
     }
     
     private func GenerateNewScore() {
-        var randomX = CGFloat(arc4random_uniform(19))
-        var randomY = CGFloat(arc4random_uniform(39))
+        var randomX = CGFloat(random(19))
+        var randomY = CGFloat(random(39))
         while scene.Contains(a: scene.playerPositions, v: (Int(randomX), Int(randomY))) {
-            randomX = CGFloat(arc4random_uniform(19))
-            randomY = CGFloat(arc4random_uniform(39))
+            randomX = CGFloat(random(19))
+            randomY = CGFloat(random(39))
         }
         scene.scorePos = CGPoint(x: randomX, y: randomY)
+    }
+    
+    private func random(_ max:UInt) -> Int {
+        return Int(Skillz.getRandomNumber(withMin: 0, andMax: max));
     }
     
     private func GenerateNewPortal() {
         if !portalGenerationTimer.isValid {
             portalGenerationTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: (#selector(UpdateGenTimer)), userInfo: nil, repeats: false)
-            var possiblity = CGFloat(arc4random_uniform(100))
+            var possiblity = CGFloat(random(100))
             if possiblity > 75 {
                 if secondsForPortal == 0 {
-                    let randomX1 = CGFloat(arc4random_uniform(19)), randomX2 = CGFloat(arc4random_uniform(19))
-                    let randomY1 = CGFloat(arc4random_uniform(39)), randomY2 = CGFloat(arc4random_uniform(39))
+                    let randomX1 = CGFloat(random(19)), randomX2 = CGFloat(random(19))
+                    let randomY1 = CGFloat(random(39)), randomY2 = CGFloat(random(39))
                     scene.portalPos = (CGPoint(x: randomX1, y: randomY1), CGPoint(x: randomX2, y: randomY2))
                     secondsForPortal = 5
                     print("Portal created")
                 }
             }else {
-                possiblity = CGFloat(arc4random_uniform(100))
+                possiblity = CGFloat(random(100))
             }
             if secondsForPortal == 0 {
                 scene.portalPos = (nil, nil)
@@ -270,7 +274,7 @@ class GameManager {
     
     private func FrontRow() -> (Int, Int){
         if scene.playerPositions.count > 0 {
-            var arrayOfPositions = scene.playerPositions
+            let arrayOfPositions = scene.playerPositions
             let headOfSnake = arrayOfPositions[0]
             switch playerDirection {
             case 1: //left
@@ -318,7 +322,8 @@ class GameManager {
     }
     
     private func FinishAnimation() {
-        if playerDirection == 0 && scene.playerPositions.count > 0 {
+        if (scene.isTimeOver() && scene.isPlaying) ||
+           (playerDirection == 0 && scene.playerPositions.count > 0) {
             var hasFinished = true
             let headOfSnake = scene.playerPositions[0]
             for position in scene.playerPositions {
@@ -327,8 +332,14 @@ class GameManager {
                 }
             }
             
+            if !hasFinished && scene.isTimeOver() {
+                hasFinished = true
+                scene.isPlaying = false
+            }
+            
             if hasFinished {
                 print("End game")
+                let score = currentScore;
                 UpdateScore()
                 playerDirection = 4
                 scene.scorePos = nil
@@ -341,14 +352,23 @@ class GameManager {
                 scene.gameBG.run(SKAction.scale(to: 0, duration: 0.4)) {
                     self.scene.gameBG.isHidden = true
                     self.scene.gameLogo.isHidden = false
+                    self.scene.pauseButton.isHidden = true
+                    self.scene.unPauseButton.isHidden = true
+                    self.scene.currentTime.isHidden = true
+                    self.scene.abortButton.isHidden = true
                     self.scene.gameLogo.run(SKAction.move(to: CGPoint(x: 0, y: (self.scene.frame.size.height / 2) - 200), duration: 0.5)) {
                         self.scene.playButton.isHidden = false
                         self.scene.playButton.run(SKAction.scale(to: 1, duration: 0.3))
-                        
-                        self.scene.bestScore.run(SKAction.move(to: CGPoint(x: 0, y: self.scene.gameLogo.position.y - 50), duration: 0.3))
                     }
                 }
+                reportScore(score);
             }
+        }
+    }
+    
+    private func reportScore(_ score: Int) {
+        Skillz.skillzInstance().displayTournamentResults(withScore: NSNumber(value:score)) {
+            print("Score reported")
         }
     }
     
@@ -358,11 +378,10 @@ class GameManager {
         }
         currentScore = 0
         scene.currentScore.text = "Score: 0"
-        scene.bestScore.text = "Best Score: \(UserDefaults.standard.integer(forKey: "bestScore"))"
     }
     
     private func CreateEnemy(_scene: GameScene) -> EnemySnake {
-        let percentage = Int.random(in: 0...99)
+        let percentage = random(99)
         if percentage < 100 {
             return EnemySnake(scene: _scene)
         }else if percentage < 0 {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		48CF939A23A956FC00093C6C /* Skillz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48CF939923A956FC00093C6C /* Skillz.framework */; };
+		48CF939E23A9582500093C6C /* Skillz.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 48CF939923A956FC00093C6C /* Skillz.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5E4B258221F646F600839B9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4B258121F646F600839B9E /* AppDelegate.swift */; };
 		5E4B258421F646F600839B9E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 5E4B258321F646F600839B9E /* GameScene.sks */; };
 		5E4B258821F646F600839B9E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4B258721F646F600839B9E /* GameScene.swift */; };
@@ -20,7 +22,21 @@
 		5E4B25A221FA602800839B9E /* PredatorSnake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4B25A121FA602800839B9E /* PredatorSnake.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		48CF939D23A9580C00093C6C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				48CF939E23A9582500093C6C /* Skillz.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		48CF939923A956FC00093C6C /* Skillz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Skillz.framework; sourceTree = "<group>"; };
 		5E4B257E21F646F600839B9E /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E4B258121F646F600839B9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E4B258321F646F600839B9E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -41,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48CF939A23A956FC00093C6C /* Skillz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +69,7 @@
 			children = (
 				5E4B258021F646F600839B9E /* Snake */,
 				5E4B257F21F646F600839B9E /* Products */,
+				48CF939923A956FC00093C6C /* Skillz.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +110,8 @@
 				5E4B257A21F646F600839B9E /* Sources */,
 				5E4B257B21F646F600839B9E /* Frameworks */,
 				5E4B257C21F646F600839B9E /* Resources */,
+				48CF939D23A9580C00093C6C /* CopyFiles */,
+				48CF939C23A9576200093C6C /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -148,6 +168,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		48CF939C23A9576200093C6C /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -e \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Skillz.framework/postprocess.sh\" ]; then\n    /bin/sh \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Skillz.framework/postprocess.sh\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5E4B257A21F646F600839B9E /* Sources */ = {
@@ -307,12 +348,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DF8VM75V3Q;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Snake/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = tirtak.Snake;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skillz.snake;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,12 +371,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DF8VM75V3Q;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Snake/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = tirtak.Snake;
+				PRODUCT_BUNDLE_IDENTIFIER = com.skillz.snake;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
